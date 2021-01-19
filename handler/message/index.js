@@ -60,8 +60,8 @@ module.exports = msgHandler = async (client, message) => {
                 .then(() => ((isGroupMsg) && (isGroupAdmins)) ? client.sendText(from, 'Menu Admin Grup: *#menuadmin*') : null)
             break
         case 'menuadmin':
-            if (!isGroupMsg) return client.reply(from, 'Maaf, perintah ini hanya dapat dipakai didalam grup! [Group Only]', id)
-            if (!isGroupAdmins) return client.reply(from, 'Gagal, perintah ini hanya dapat digunakan oleh admin grup! [Admin Group Only]', id)
+            if (!isGroupMsg) return client.reply(from, 'alleen voor groepen, maar waarschijnlijk heb je toch geen vrienden [Group Only]', id)
+            if (!isGroupAdmins) return client.reply(from, 'alleen beheerders kunnen dit, haha je hebt geen rechten [Admin Group Only]', id)
             await client.sendText(from, menuId.textAdmin())
             break
         case 'donate':
@@ -89,10 +89,10 @@ module.exports = msgHandler = async (client, message) => {
             } else if (args.length === 1) {
                 if (!is.Url(url)) { await client.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id) }
                 client.sendStickerfromUrl(from, url).then((r) => (!r && r !== undefined)
-                    ? client.sendText(from, 'Maaf, link yang kamu kirim tidak memuat gambar. [No Image]')
+                    ? client.sendText(from, 'het bevat geen afbeelding [No Image]')
                     : client.reply(from, 'Here\'s your sticker')).then(() => console.log(`Sticker Processed for ${processTime(t, moment())} Second`))
             } else {
-                await client.reply(from, 'Tidak ada gambar! Untuk membuka daftar perintah kirim #menu [Wrong Format]', id)
+                await client.reply(from, ' geen foto om een lijst met verzendopdrachten te maken #menu [Wrong Format]', id)
             }
             break
         }
@@ -100,7 +100,7 @@ module.exports = msgHandler = async (client, message) => {
         case 'stickergif':
         case 'gifstiker':
         case 'gifsticker': {
-            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
+            if (args.length !== 1) return client.reply(from, 'berichtformaat is verkeerd, godverdomme hoevaak moet ik het nog zeggen. Controlleer t menu [Wrong Format]', id)
             if (is.Giphy(url)) {
                 const getGiphyCode = url.match(new RegExp(/(\/|\-)(?:.(?!(\/|\-)))+$/, 'gi'))
                 if (!getGiphyCode) { return client.reply(from, 'Gagal mengambil kode giphy', id) }
@@ -119,13 +119,13 @@ module.exports = msgHandler = async (client, message) => {
                     console.log(`Sticker Processed for ${processTime(t, moment())} Second`)
                 }).catch((err) => console.log(err))
             } else {
-                await client.reply(from, 'maaf, untuk saat ini sticker gif hanya bisa menggunakan link dari giphy.  [Giphy Only]', id)
+                await client.reply(from, 'Wollah alleen giphy gebruiken  [Giphy Only]', id)
             }
             break
         }
         // Video Downloader
         case 'tiktok':
-            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
+            if (args.length !== 1) return client.reply(from, 'verkeerd format kut, controleer gelieve het menu [Wrong Format]', id)
             if (!is.Url(url) && !url.includes('tiktok.com')) return client.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
             await client.reply(from, `_Scraping Metadata..._ \n\n${menuId.textDonasi()}`, id)
             downloader.tiktok(url).then(async (videoMeta) => {
@@ -134,12 +134,12 @@ module.exports = msgHandler = async (client, message) => {
                 await client.sendFileFromUrl(from, videoMeta.url, filename, videoMeta.NoWaterMark ? caps : `⚠ Video tanpa watermark tidak tersedia. \n\n${caps}`, '', { headers: { 'User-Agent': 'okhttp/4.5.0', referer: 'https://www.tiktok.com/' } }, true)
                     .then((serialized) => console.log(`Sukses Mengirim File dengan id: ${serialized} diproses selama ${processTime(t, moment())}`))
                     .catch((err) => console.error(err))
-            }).catch(() => client.reply(from, 'Gagal mengambil metadata, link yang kamu kirim tidak valid. [Invalid Link]', id))
+            }).catch(() => client.reply(from, 'het ophalen van data is mislukt ofzo, link werkt niet of is ongeldig [Invalid Link]', id))
             break
         case 'ig':
         case 'instagram':
-            if (args.length !== 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
-            if (!is.Url(url) && !url.includes('instagram.com')) return client.reply(from, 'Maaf, link yang kamu kirim tidak valid. [Invalid Link]', id)
+            if (args.length !== 1) return client.reply(from, 'berichtformaat is verkeerd, godverdomme hoevaak moet ik het nog zeggen. Controlleer t menu [Wrong Format]', id)
+            if (!is.Url(url) && !url.includes('instagram.com')) return client.reply(from, 'link kloppe niet of is ongeldig. [Invalid Link]', id)
             await client.reply(from, `_Scraping Metadata..._ \n\n${menuId.textDonasi()}`, id)
             downloader.insta(url).then(async (data) => {
                 if (data.type == 'GraphSidecar') {
@@ -165,8 +165,7 @@ module.exports = msgHandler = async (client, message) => {
             })
                 .catch((err) => {
                     console.log(err)
-                    if (err === 'Not a video') { return client.reply(from, 'Error, tidak ada video di link yang kamu kirim. [Invalid Link]', id) }
-                    client.reply(from, 'Error, user private atau link salah [Private or Invalid Link]', id)
+                    if (err === 'Not a video') { return client.reply(from, 'der is geen video op die link dus of hij is verwijderd en werkt niet of hij is prive ofzo', id)
                 })
             break
         case 'twt':
@@ -190,7 +189,7 @@ module.exports = msgHandler = async (client, message) => {
                     }
                 }
             })
-                .catch(() => client.sendText(from, 'Maaf, link tidak valid atau tidak ada media di link yang kamu kirim. [Invalid Link]'))
+                .catch(() => client.sendText(from, 'Sorry, de link is ongeldig of er staat geen media in de link die je hebt verzonden. [Invalid Link]'))
             break
         case 'fb':
         case 'facebook':
@@ -240,8 +239,8 @@ module.exports = msgHandler = async (client, message) => {
             cekResi(args[0], args[1]).then((result) => client.sendText(from, result))
             break
         case 'translate':
-            if (args.length != 1) return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
-            if (!quotedMsg) return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
+            if (args.length != 1) return client.reply(from, 'verkeeeeeerd format kijk nou dat menu [Wrong Format]', id)
+            if (!quotedMsg) return client.reply(from, 'verkeeeeeerd format kijk nou dat menu [Wrong Format]', id)
             const quoteText = quotedMsg.type == 'chat' ? quotedMsg.body : quotedMsg.type == 'image' ? quotedMsg.caption : ''
             translate(quoteText, args[0])
                 .then((result) => client.sendText(from, result))
@@ -249,7 +248,7 @@ module.exports = msgHandler = async (client, message) => {
             break
         case 'ceklok':
         case 'ceklokasi':
-            if (!quotedMsg || quotedMsg.type !== 'location') return client.reply(from, 'Maaf, format pesan salah silahkan periksa menu. [Wrong Format]', id)
+            if (!quotedMsg || quotedMsg.type !== 'location') return client.reply(from, 'verkeeeeeerd format kijk nou dat menu [Wrong Format]', id)
             console.log(`Request Status Zona Penyebaran Covid-19 (${quotedMsg.lat}, ${quotedMsg.lng}).`)
             const zoneStatus = await getLocationData(quotedMsg.lat, quotedMsg.lng)
             if (zoneStatus.kode !== 200) client.sendText(from, 'Maaf, Terjadi error ketika memeriksa lokasi yang anda kirim.')
