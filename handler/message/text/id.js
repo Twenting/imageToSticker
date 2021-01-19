@@ -61,12 +61,12 @@ Gebruik: stuur bericht met het formaat _ * # resi jne 1238757632 * _
 3. * # meme * _ <bovenste tekst> _ | _ <onderste tekst> _
 Om een ​​meme te maken met tekst bovenaan en onderaan
 Gebruik: stuur afbeelding met bijschrift _ * # meme top me | u onder * _, of u kunt ook reageren op een bestaande afbeelding.
-4. * # controleer locatie *
+4. * #ceklokasi *
 Controleer de locatie van de verspreiding van covid-19 in het gebied om je heen (kelurahan).
-Gebruik: stuur uw locatie en beantwoord / citeer / beantwoord de locatie die u hebt verzonden met _ * # controleer locatie * _
+Gebruik: stuur uw locatie en beantwoord / citeer / beantwoord de locatie die u hebt verzonden met _ * #ceklokasi * _
 5. * # tnc *
 Toont algemene voorwaarden voor bot.
-6. * # donatie *
+6. * # donasi *
 donatie-informatie weergeven.
 Ik hoop dat je een geweldige dag hebt! ✨`
 }
