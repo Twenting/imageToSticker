@@ -166,7 +166,7 @@ module.exports = msgHandler = async (client, message) => {
                 .catch((err) => {
                     console.log(err)
                     if (err === 'Not a video') { return client.reply(from, 'der is geen video op die link dus of hij is verwijderd en werkt niet of hij is prive ofzo', id)
-                })
+                }
             break
         case 'twt':
         case 'twitter':
